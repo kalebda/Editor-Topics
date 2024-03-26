@@ -9,7 +9,7 @@ Provides Headings Blocks for the [Editor.js](https://ifmo.su/editor).
 Get the package
 
 ```shell
-yarn add @editorjs/topic
+yarn add @kalebu2468/editorjs-topic
 ```
 
 Include module at your application

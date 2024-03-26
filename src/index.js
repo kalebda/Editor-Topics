@@ -104,6 +104,7 @@ export default class Topics {
    */
   render() {
     this._element = this.getTag();
+    return this._element;
   }
 
   /**
@@ -131,7 +132,7 @@ export default class Topics {
    * @public
    */
   validate(blockData) {
-    return blockData.text.trim() !== "";
+    // return blockData.text.trim() !== "";
   }
 
   /**

@@ -1,4 +1,9 @@
 /**
+ * Build styles
+ */
+import "./index.css";
+
+/**
  * @typedef {object} HeaderData
  * @description Tool's input and output data format
  * @property {string} text — Header's content
@@ -21,7 +26,7 @@
  * @license MIT
  * @version 2.0.0
  */
-class Topics {
+export default class Topics {
   /**
    * Render plugin`s main Element and fill it with saved data
    *

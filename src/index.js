@@ -69,7 +69,6 @@ export default class Topics {
      * @private
      */
     this._element = null;
-    this.onKeyUp = this.onKeyUp.bind(this);
   }
   /**
    * Normalize input data
@@ -104,17 +103,7 @@ export default class Topics {
    * @public
    */
   render() {
-    if (
-      this.api.blocks.getCurrentBlockIndex() == -1 ||
-      (this.api.blocks.getCurrentBlockIndex() > -1 &&
-        this.api.blocks.getBlockByIndex(this.api.blocks.getCurrentBlockIndex())
-          .name == "topics")
-    ) {
-      this._element = this.getTag();
-      return this._element;
-    } else {
-      return this.getNoNode();
-    }
+    this._element = this.getTag();
   }
 
   /**
@@ -143,18 +132,6 @@ export default class Topics {
    */
   validate(blockData) {
     return blockData.text.trim() !== "";
-  }
-
-  onKeyUp(e) {
-    if (e.code !== "Backspace" && e.code !== "Delete") {
-      return;
-    }
-
-    const { textContent } = this._element;
-
-    if (textContent === "") {
-      this._element.innerHTML = "";
-    }
   }
 
   /**
@@ -280,8 +257,6 @@ export default class Topics {
      * Add Placeholder
      */
     tag.dataset.placeholder = this.api.i18n.t(this._settings.placeholder || "");
-    tag.contentEditable = true;
-    tag.addEventListener("keyup", this.onKeyUp);
 
     return tag;
   }

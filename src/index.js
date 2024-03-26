@@ -68,7 +68,7 @@ export default class Topics {
      * @type {HTMLElement}
      * @private
      */
-    this._element = null;
+    this._element = this.getTag();
   }
   /**
    * Normalize input data
@@ -103,7 +103,6 @@ export default class Topics {
    * @public
    */
   render() {
-    this._element = this.getTag();
     return this._element;
   }
 
@@ -121,18 +120,6 @@ export default class Topics {
     };
 
     this.data = newData;
-  }
-
-  /**
-   * Validate Text block data:
-   * - check for emptiness
-   *
-   * @param {HeaderData} blockData — data received after saving
-   * @returns {boolean} false if saved data is not correct, otherwise true
-   * @public
-   */
-  validate(blockData) {
-    // return blockData.text.trim() !== "";
   }
 
   /**
@@ -290,6 +277,18 @@ export default class Topics {
       level = this.defaultLevel;
     }
     return level;
+  }
+
+  /**
+   * Validate Text block data:
+   * - check for emptiness
+   *
+   * @param {HeaderData} blockData — data received after saving
+   * @returns {boolean} false if saved data is not correct, otherwise true
+   * @public
+   */
+  validate(blockData) {
+    return blockData.text.trim() !== "";
   }
 
   /**

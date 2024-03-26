@@ -1,9 +1,7 @@
 /**
  * Build styles
  */
-import './index.css';
-
-import { IconH1, IconH2, IconH3, IconH4, IconH5, IconH6, IconHeading } from '@codexteam/icons';
+import "./index.css";
 
 /**
  * @typedef {object} HeaderData
@@ -28,7 +26,7 @@ import { IconH1, IconH2, IconH3, IconH4, IconH5, IconH6, IconHeading } from '@co
  * @license MIT
  * @version 2.0.0
  */
-export default class Header {
+export default class Topics {
   /**
    * Render plugin`s main Element and fill it with saved data
    *
@@ -36,11 +34,9 @@ export default class Header {
    *   data — previously saved data
    *   config - user config for Tool
    *   api - Editor.js API
-   *   readOnly - read only mode flag
    */
-  constructor({ data, config, api, readOnly }) {
+  constructor({ data, config, api }) {
     this.api = api;
-    this.readOnly = readOnly;
 
     /**
      * Styles
@@ -49,9 +45,8 @@ export default class Header {
      */
     this._CSS = {
       block: this.api.styles.block,
-      wrapper: 'ce-header',
+      wrapper: "ce-header",
     };
-
     /**
      * Tool's settings passed from Editor
      *
@@ -67,16 +62,14 @@ export default class Header {
      * @private
      */
     this._data = this.normalizeData(data);
-
     /**
      * Main Block wrapper
      *
      * @type {HTMLElement}
      * @private
      */
-    this._element = this.getTag();
+    this._element = null;
   }
-
   /**
    * Normalize input data
    *
@@ -88,14 +81,19 @@ export default class Header {
   normalizeData(data) {
     const newData = {};
 
-    if (typeof data !== 'object') {
+    if (typeof data !== "object") {
       data = {};
     }
 
-    newData.text = data.text || '';
+    newData.text = data.text || "";
     newData.level = parseInt(data.level) || this.defaultLevel.number;
 
     return newData;
+  }
+
+  renderSettings() {
+    const wrapper = document.createElement("div");
+    return wrapper;
   }
 
   /**
@@ -105,34 +103,17 @@ export default class Header {
    * @public
    */
   render() {
-    return this._element;
-  }
-
-  /**
-   * Returns header block tunes config
-   *
-   * @returns {Array}
-   */
-  renderSettings() {
-    return this.levels.map(level => ({
-      icon: level.svg,
-      label: this.api.i18n.t(`Heading ${level.number}`),
-      onActivate: () => this.setLevel(level.number),
-      closeOnActivate: true,
-      isActive: this.currentLevel.number === level.number,
-    }));
-  }
-
-  /**
-   * Callback for Block's settings buttons
-   *
-   * @param {number} level - level to set
-   */
-  setLevel(level) {
-    this.data = {
-      level: level,
-      text: this.data.text,
-    };
+    if (
+      this.api.blocks.getCurrentBlockIndex() == -1 ||
+      (this.api.blocks.getCurrentBlockIndex() > -1 &&
+        this.api.blocks.getBlockByIndex(this.api.blocks.getCurrentBlockIndex())
+          .name == "topics")
+    ) {
+      this._element = this.getTag();
+      return this._element;
+    } else {
+      return this.getNoNode();
+    }
   }
 
   /**
@@ -160,7 +141,7 @@ export default class Header {
    * @public
    */
   validate(blockData) {
-    return blockData.text.trim() !== '';
+    return blockData.text.trim() !== "";
   }
 
   /**
@@ -182,8 +163,8 @@ export default class Header {
    */
   static get conversionConfig() {
     return {
-      export: 'text', // use 'text' property for other blocks
-      import: 'text', // fill 'text' property from other block's export string
+      export: "text", // use 'text' property for other blocks
+      import: "text", // fill 'text' property from other block's export string
     };
   }
 
@@ -195,15 +176,6 @@ export default class Header {
       level: false,
       text: {},
     };
-  }
-
-  /**
-   * Returns true to notify core that read-only is supported
-   *
-   * @returns {boolean}
-   */
-  static get isReadOnlySupported() {
-    return true;
   }
 
   /**
@@ -265,7 +237,7 @@ export default class Header {
      * If data.text was passed then update block's content
      */
     if (data.text !== undefined) {
-      this._element.innerHTML = this._data.text || '';
+      this._element.innerHTML = this._data.text || "";
     }
   }
 
@@ -284,7 +256,7 @@ export default class Header {
     /**
      * Add text to block
      */
-    tag.innerHTML = this._data.text || '';
+    tag.innerHTML = this._data.text || "";
 
     /**
      * Add styles class
@@ -292,14 +264,23 @@ export default class Header {
     tag.classList.add(this._CSS.wrapper);
 
     /**
-     * Make tag editable
-     */
-    tag.contentEditable = this.readOnly ? 'false' : 'true';
-
-    /**
      * Add Placeholder
      */
-    tag.dataset.placeholder = this.api.i18n.t(this._settings.placeholder || '');
+    tag.dataset.placeholder = this.api.i18n.t(this._settings.placeholder || "");
+
+    return tag;
+  }
+
+  getNoNode() {
+    /**
+     * Create element
+     */
+    const tag = document.createElement("DIV");
+
+    /**
+     * Add '' to block
+     */
+    tag.innerHTML = "";
 
     return tag;
   }
@@ -310,12 +291,13 @@ export default class Header {
    * @returns {level}
    */
   get currentLevel() {
-    let level = this.levels.find(levelItem => levelItem.number === this._data.level);
+    let level = this.levels.find(
+      (levelItem) => levelItem.number === this._data.level
+    );
 
     if (!level) {
       level = this.defaultLevel;
     }
-
     return level;
   }
 
@@ -329,14 +311,16 @@ export default class Header {
      * User can specify own default level value
      */
     if (this._settings.defaultLevel) {
-      const userSpecified = this.levels.find(levelItem => {
+      const userSpecified = this.levels.find((levelItem) => {
         return levelItem.number === this._settings.defaultLevel;
       });
 
       if (userSpecified) {
         return userSpecified;
       } else {
-        console.warn('(ง\'̀-\'́)ง Heading Tool: the default level specified was not found in available levels');
+        console.warn(
+          "(ง'̀-'́)ง Heading Tool: the default level specified was not found in available levels"
+        );
       }
     }
 
@@ -345,7 +329,7 @@ export default class Header {
      *
      * @type {level}
      */
-    return this.levels[1];
+    return this.levels[0];
   }
 
   /**
@@ -364,39 +348,14 @@ export default class Header {
     const availableLevels = [
       {
         number: 1,
-        tag: 'H1',
-        svg: IconH1,
-      },
-      {
-        number: 2,
-        tag: 'H2',
-        svg: IconH2,
-      },
-      {
-        number: 3,
-        tag: 'H3',
-        svg: IconH3,
-      },
-      {
-        number: 4,
-        tag: 'H4',
-        svg: IconH4,
-      },
-      {
-        number: 5,
-        tag: 'H5',
-        svg: IconH5,
-      },
-      {
-        number: 6,
-        tag: 'H6',
-        svg: IconH6,
+        tag: "H1",
+        svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>',
       },
     ];
 
-    return this._settings.levels ? availableLevels.filter(
-      l => this._settings.levels.includes(l.number)
-    ) : availableLevels;
+    return this._settings.levels
+      ? availableLevels.filter((l) => this._settings.levels.includes(l.number))
+      : availableLevels;
   }
 
   /**
@@ -415,22 +374,22 @@ export default class Header {
     let level = this.defaultLevel.number;
 
     switch (content.tagName) {
-      case 'H1':
+      case "H1":
         level = 1;
         break;
-      case 'H2':
+      case "H2":
         level = 2;
         break;
-      case 'H3':
+      case "H3":
         level = 3;
         break;
-      case 'H4':
+      case "H4":
         level = 4;
         break;
-      case 'H5':
+      case "H5":
         level = 5;
         break;
-      case 'H6':
+      case "H6":
         level = 6;
         break;
     }
@@ -438,7 +397,9 @@ export default class Header {
     if (this._settings.levels) {
       // Fallback to nearest level when specified not available
       level = this._settings.levels.reduce((prevLevel, currLevel) => {
-        return Math.abs(currLevel - level) < Math.abs(prevLevel - level) ? currLevel : prevLevel;
+        return Math.abs(currLevel - level) < Math.abs(prevLevel - level)
+          ? currLevel
+          : prevLevel;
       });
     }
 
@@ -456,7 +417,7 @@ export default class Header {
    */
   static get pasteConfig() {
     return {
-      tags: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
+      tags: ["H1", "H2", "H3", "H4", "H5", "H6"],
     };
   }
 
@@ -469,8 +430,8 @@ export default class Header {
    */
   static get toolbox() {
     return {
-      icon: IconHeading,
-      title: 'Heading',
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>',
+      title: "Topics",
     };
   }
 }

@@ -9,7 +9,7 @@
 }
 
 .ce-header p,
-.ce-header div{
+.ce-header div {
   padding: 0 !important;
   margin: 0 !important;
 }
@@ -17,9 +17,10 @@
 /**
  * Styles for Plugin icon in Toolbar
  */
-.ce-header__icon {}
+.ce-header__icon {
+}
 
-.ce-header[contentEditable=true][data-placeholder]::before{
+.ce-header[contentEditable="true"][data-placeholder]::before {
   position: absolute;
   content: attr(data-placeholder);
   color: #707684;
@@ -28,10 +29,14 @@
   cursor: text;
 }
 
-.ce-header[contentEditable=true][data-placeholder]:empty::before {
+.ce-header[contentEditable="true"][data-placeholder]:empty::before {
   display: block;
 }
 
-.ce-header[contentEditable=true][data-placeholder]:empty:focus::before {
+.ce-header[contentEditable="true"][data-placeholder]:empty:focus::before {
   display: none;
 }
+
+/* .ce-popover-item[data-item-name="lessons"] {
+  display: none;
+} */

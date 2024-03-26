@@ -1,4 +1,4 @@
-# Heading Tool
+# Topic Tool
 
 ![Version of EditorJS that the plugin is compatible with](https://badgen.net/badge/Editor.js/v2.0/blue)
 
@@ -9,16 +9,14 @@ Provides Headings Blocks for the [Editor.js](https://ifmo.su/editor).
 Get the package
 
 ```shell
-yarn add @editorjs/header
+yarn add @editorjs/topic
 ```
 
 Include module at your application
 
 ```javascript
-import Header from '@editorjs/header';
+import Topic from "@editorjs/topic";
 ```
-
-Optionally, you can load this tool from CDN [JsDelivr CDN](https://cdn.jsdelivr.net/npm/@editorjs/header@latest)
 
 ## Usage
 
@@ -30,7 +28,7 @@ var editor = EditorJS({
 
   tools: {
     ...
-    header: Header,
+    topic: Topic,
   },
 
   ...
@@ -47,9 +45,8 @@ var editor = EditorJS({
 
   tools: {
     ...
-    header: {
-      class: Header,
-      shortcut: 'CMD+SHIFT+H',
+    topic: {
+      class: Topic,
     },
   },
 
@@ -61,11 +58,11 @@ var editor = EditorJS({
 
 All properties are optional.
 
-| Field        | Type       | Description                 |
-| ------------ | ---------- | --------------------------- |
-| placeholder  | `string`   | header's placeholder string |
-| levels       | `number[]` | enabled heading levels      |
-| defaultLevel | `number`   | default heading level       |
+| Field        | Type       | Description                |
+| ------------ | ---------- | -------------------------- |
+| placeholder  | `string`   | topic's placeholder string |
+| levels       | `number[]` | enabled heading levels     |
+| defaultLevel | `number`   | default heading level      |
 
 ```javascript
 var editor = EditorJS({
@@ -73,10 +70,10 @@ var editor = EditorJS({
 
   tools: {
     ...
-    header: {
-      class: Header,
+    topic: {
+      class: Topic,
       config: {
-        placeholder: 'Enter a header',
+        placeholder: 'Enter a topic',
         levels: [2, 3, 4],
         defaultLevel: 3
       }
@@ -87,22 +84,16 @@ var editor = EditorJS({
 });
 ```
 
-## Tool's settings
-
-![An image showing the header block tool](https://capella.pics/634ad545-08d7-4cb7-8409-f01289e0e5e1.jpg)
-
-You can select one of six levels for heading.
-
 ## Output data
 
-| Field | Type     | Description                                      |
-| ----- | -------- | ------------------------------------------------ |
-| text  | `string` | header's text                                    |
-| level | `number` | level of header: 1 for H1, 2 for H2 ... 6 for H6 |
+| Field | Type     | Description                                     |
+| ----- | -------- | ----------------------------------------------- |
+| text  | `string` | topic's text                                    |
+| level | `number` | level of topic: 1 for H1, 2 for H2 ... 6 for H6 |
 
 ```json
 {
-  "type": "header",
+  "type": "topic",
   "data": {
     "text": "Why Telegram is the best messenger",
     "level": 2

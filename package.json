@@ -1,24 +1,24 @@
 {
-  "name": "@editorjs/header",
-  "version": "2.8.1",
+  "name": "@editorjs/topic",
+  "version": "0.0.1",
   "keywords": [
     "codex editor",
-    "header",
+    "topic",
     "editor.js",
     "editorjs"
   ],
-  "description": "Header Tool for Editor.js",
+  "description": "Topic Tool for Editor.js",
   "license": "MIT",
-  "repository": "https://github.com/editor-js/header",
+  "repository": "https://github.com/kalebda/Editor-Topics",
   "files": [
     "dist"
   ],
-  "main": "./dist/header.umd.js",
-  "module": "./dist/header.mjs",
+  "main": "./dist/topic.umd.js",
+  "module": "./dist/topic.mjs",
   "exports": {
     ".": {
-      "import": "./dist/header.mjs",
-      "require": "./dist/header.umd.js"
+      "import": "./dist/topic.mjs",
+      "require": "./dist/topic.umd.js"
     }
   },
   "scripts": {

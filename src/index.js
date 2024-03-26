@@ -1,17 +1,13 @@
-/**
- * Build styles
- */
 import "./index.css";
-
 /**
- * @typedef {object} HeaderData
+ * @typedef {object} TopicData
  * @description Tool's input and output data format
- * @property {string} text — Header's content
- * @property {number} level - Header's level from 1 to 6
+ * @property {string} text — Topic's content
+ * @property {number} level - Topic's level from 1 to 6
  */
 
 /**
- * @typedef {object} HeaderConfig
+ * @typedef {object} TopicConfig
  * @description Tool's config from Editor
  * @property {string} placeholder — Block's placeholder
  * @property {number[]} levels — Heading levels
@@ -19,7 +15,7 @@ import "./index.css";
  */
 
 /**
- * Header block for the Editor.js.
+ * Topic block for the Editor.js.
  *
  * @author CodeX (team@ifmo.su)
  * @copyright CodeX 2018
@@ -30,7 +26,7 @@ export default class Topics {
   /**
    * Render plugin`s main Element and fill it with saved data
    *
-   * @param {{data: HeaderData, config: HeaderConfig, api: object}}
+   * @param {{data: TopicData, config: TopicConfig, api: object}}
    *   data — previously saved data
    *   config - user config for Tool
    *   api - Editor.js API
@@ -45,7 +41,7 @@ export default class Topics {
      */
     this._CSS = {
       block: this.api.styles.block,
-      wrapper: "ce-header",
+      wrapper: "ce-topic",
     };
     /**
      * Tool's settings passed from Editor
@@ -68,7 +64,8 @@ export default class Topics {
      * @type {HTMLElement}
      * @private
      */
-    this._element = this.getTag();
+    this._element = null;
+    this.onKeyUp = this.onKeyUp.bind(this);
   }
   /**
    * Normalize input data
@@ -91,6 +88,18 @@ export default class Topics {
     return newData;
   }
 
+  onKeyUp(e) {
+    if (e.code !== "Backspace" && e.code !== "Delete") {
+      return;
+    }
+
+    const { textContent } = this._element;
+
+    if (textContent === "") {
+      this._element.innerHTML = "";
+    }
+  }
+
   renderSettings() {
     const wrapper = document.createElement("div");
     return wrapper;
@@ -103,6 +112,7 @@ export default class Topics {
    * @public
    */
   render() {
+    this._element = this.getTag();
     return this._element;
   }
 
@@ -245,20 +255,8 @@ export default class Topics {
      * Add Placeholder
      */
     tag.dataset.placeholder = this.api.i18n.t(this._settings.placeholder || "");
-
-    return tag;
-  }
-
-  getNoNode() {
-    /**
-     * Create element
-     */
-    const tag = document.createElement("DIV");
-
-    /**
-     * Add '' to block
-     */
-    tag.innerHTML = "";
+    tag.contentEditable = true;
+    tag.addEventListener("keyup", this.onKeyUp);
 
     return tag;
   }

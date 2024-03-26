@@ -28,7 +28,7 @@ var editor = EditorJS({
 
   tools: {
     ...
-    topic: Topic,
+    topics: Topics,
   },
 
   ...
@@ -45,8 +45,8 @@ var editor = EditorJS({
 
   tools: {
     ...
-    topic: {
-      class: Topic,
+    topics: {
+      class: Topics,
     },
   },
 
@@ -61,8 +61,8 @@ All properties are optional.
 | Field        | Type       | Description                |
 | ------------ | ---------- | -------------------------- |
 | placeholder  | `string`   | topic's placeholder string |
-| levels       | `number[]` | enabled heading levels     |
-| defaultLevel | `number`   | default heading level      |
+| levels       | `number[]` | enabled topic levels       |
+| defaultLevel | `number`   | default topic level        |
 
 ```javascript
 var editor = EditorJS({
@@ -70,13 +70,13 @@ var editor = EditorJS({
 
   tools: {
     ...
-    topic: {
-      class: Topic,
-      config: {
-        placeholder: 'Enter a topic',
-        levels: [2, 3, 4],
-        defaultLevel: 3
-      }
+    topics: {
+     class: Topics,
+        config: {
+          placeholder: "Enter a Topic",
+          levels: [1],
+          defaultLevel: 1,
+        },
     }
   }
 
@@ -86,17 +86,17 @@ var editor = EditorJS({
 
 ## Output data
 
-| Field | Type     | Description                                     |
-| ----- | -------- | ----------------------------------------------- |
-| text  | `string` | topic's text                                    |
-| level | `number` | level of topic: 1 for H1, 2 for H2 ... 6 for H6 |
+| Field | Type     | Description    |
+| ----- | -------- | -------------- |
+| text  | `string` | topic's text   |
+| level | `number` | level of topic |
 
 ```json
 {
   "type": "topic",
   "data": {
     "text": "Why Telegram is the best messenger",
-    "level": 2
+    "level": 1
   }
 }
 ```

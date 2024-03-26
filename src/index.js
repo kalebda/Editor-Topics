@@ -1,9 +1,4 @@
 /**
- * Build styles
- */
-import "./index.css";
-
-/**
  * @typedef {object} HeaderData
  * @description Tool's input and output data format
  * @property {string} text — Header's content
@@ -26,7 +21,7 @@ import "./index.css";
  * @license MIT
  * @version 2.0.0
  */
-export default class Topics {
+class Topics {
   /**
    * Render plugin`s main Element and fill it with saved data
    *
@@ -69,6 +64,7 @@ export default class Topics {
      * @private
      */
     this._element = null;
+    this.onKeyUp = this.onKeyUp.bind(this);
   }
   /**
    * Normalize input data
@@ -142,6 +138,18 @@ export default class Topics {
    */
   validate(blockData) {
     return blockData.text.trim() !== "";
+  }
+
+  onKeyUp(e) {
+    if (e.code !== "Backspace" && e.code !== "Delete") {
+      return;
+    }
+
+    const { textContent } = this._element;
+
+    if (textContent === "") {
+      this._element.innerHTML = "";
+    }
   }
 
   /**
@@ -267,6 +275,8 @@ export default class Topics {
      * Add Placeholder
      */
     tag.dataset.placeholder = this.api.i18n.t(this._settings.placeholder || "");
+    tag.contentEditable = true;
+    tag.addEventListener("keyup", this.onKeyUp);
 
     return tag;
   }

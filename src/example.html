@@ -1,0 +1,42 @@
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+<script src="index.js"></script>
+<link href="index.css" rel="stylesheet" />
+
+<div id="editorjs"></div>
+<button id="save-button">Save</button>
+<pre id="output"></pre>
+<script>
+  const editor = new EditorJS({
+    autofocus: true,
+    tools: {
+      topics: {
+        class: Topics,
+        config: {
+          placeholder: "Enter a Topic",
+          levels: [1],
+          defaultLevel: 1,
+        },
+      },
+    },
+    data: {
+      time: 1552744582955,
+      blocks: [
+        {
+          type: "topics",
+          data: {
+            text: "Topic One",
+            level: 1,
+          },
+        },
+      ],
+    },
+  });
+  const saveButton = document.getElementById("save-button");
+  const output = document.getElementById("output");
+
+  saveButton.addEventListener("click", () => {
+    editor.save().then((savedData) => {
+      output.innerHTML = JSON.stringify(savedData, null, 4);
+    });
+  });
+</script>

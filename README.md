@@ -2,7 +2,7 @@
 
 ![Version of EditorJS that the plugin is compatible with](https://badgen.net/badge/Editor.js/v2.0/blue)
 
-Provides Headings Blocks for the [Editor.js](https://ifmo.su/editor).
+Provides Topic Blocks for the [Editor.js](https://ifmo.su/editor).
 
 ## Installation
 
@@ -15,7 +15,7 @@ yarn add @kalebu2468/editorjs-topic
 Include module at your application
 
 ```javascript
-import Topic from "@editorjs/topic";
+import Topic from "@editorjs/editorjs-topic";
 ```
 
 ## Usage

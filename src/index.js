@@ -10,7 +10,7 @@ import "./index.css";
  * @typedef {object} TopicConfig
  * @description Tool's config from Editor
  * @property {string} placeholder — Block's placeholder
- * @property {number[]} levels — Heading levels
+ * @property {number[]} levels — Topic levels
  * @property {number} defaultLevel — default level
  */
 
@@ -46,7 +46,7 @@ export default class Topics {
     /**
      * Tool's settings passed from Editor
      *
-     * @type {HeaderConfig}
+     * @type {TopicConfig}
      * @private
      */
     this._settings = config;
@@ -54,7 +54,7 @@ export default class Topics {
     /**
      * Block's data
      *
-     * @type {HeaderData}
+     * @type {TopicData}
      * @private
      */
     this._data = this.normalizeData(data);
@@ -70,9 +70,9 @@ export default class Topics {
   /**
    * Normalize input data
    *
-   * @param {HeaderData} data - saved data to process
+   * @param {TopicData} data - saved data to process
    *
-   * @returns {HeaderData}
+   * @returns {TopicData}
    * @private
    */
   normalizeData(data) {
@@ -108,7 +108,7 @@ export default class Topics {
   /**
    * Return Tool's view
    *
-   * @returns {HTMLHeadingElement}
+   * @returns {HTMLTopicElement}
    * @public
    */
   render() {
@@ -120,7 +120,7 @@ export default class Topics {
    * Method that specified how to merge two Text blocks.
    * Called by Editor.js by backspace at the beginning of the Block
    *
-   * @param {HeaderData} data - saved data to merger with current block
+   * @param {TopicData} data - saved data to merger with current block
    * @public
    */
   merge(data) {
@@ -135,8 +135,8 @@ export default class Topics {
   /**
    * Extract Tool's data from the view
    *
-   * @param {HTMLHeadingElement} toolsContent - Text tools rendered view
-   * @returns {HeaderData} - saved data
+   * @param {HTMLTopicElement} toolsContent - Text tools rendered view
+   * @returns {TopicData} - saved data
    * @public
    */
   save(toolsContent) {
@@ -147,7 +147,7 @@ export default class Topics {
   }
 
   /**
-   * Allow Header to be converted to/from other blocks
+   * Allow Topic to be converted to/from other blocks
    */
   static get conversionConfig() {
     return {
@@ -169,7 +169,7 @@ export default class Topics {
   /**
    * Get current Tools`s data
    *
-   * @returns {HeaderData} Current data
+   * @returns {TopicData} Current data
    * @private
    */
   get data() {
@@ -184,7 +184,7 @@ export default class Topics {
    * - at the this._data property
    * - at the HTML
    *
-   * @param {HeaderData} data — data to set
+   * @param {TopicData} data — data to set
    * @private
    */
   set data(data) {
@@ -198,27 +198,27 @@ export default class Topics {
       /**
        * Create a new tag
        *
-       * @type {HTMLHeadingElement}
+       * @type {HTMLTopicElement}
        */
-      const newHeader = this.getTag();
+      const newTopic = this.getTag();
 
       /**
        * Save Block's content
        */
-      newHeader.innerHTML = this._element.innerHTML;
+      newTopic.innerHTML = this._element.innerHTML;
 
       /**
        * Replace blocks
        */
-      this._element.parentNode.replaceChild(newHeader, this._element);
+      this._element.parentNode.replaceChild(newTopic, this._element);
 
       /**
        * Save new block to private variable
        *
-       * @type {HTMLHeadingElement}
+       * @type {HTMLTopicElement}
        * @private
        */
-      this._element = newHeader;
+      this._element = newTopic;
     }
 
     /**
@@ -231,7 +231,7 @@ export default class Topics {
 
   /**
    * Get tag for target level
-   * By default returns second-leveled header
+   * By default returns second-leveled Topic
    *
    * @returns {HTMLElement}
    */
@@ -244,7 +244,7 @@ export default class Topics {
     /**
      * Add text to block
      */
-    tag.innerHTML = this._data.text || "";
+    tag.innerHTML = this._data.text || "New Topic";
 
     /**
      * Add styles class
@@ -281,7 +281,7 @@ export default class Topics {
    * Validate Text block data:
    * - check for emptiness
    *
-   * @param {HeaderData} blockData — data received after saving
+   * @param {TopicData} blockData — data received after saving
    * @returns {boolean} false if saved data is not correct, otherwise true
    * @public
    */
@@ -307,7 +307,7 @@ export default class Topics {
         return userSpecified;
       } else {
         console.warn(
-          "(ง'̀-'́)ง Heading Tool: the default level specified was not found in available levels"
+          "(ง'̀-'́)ง Topic Tool: the default level specified was not found in available levels"
         );
       }
     }
@@ -328,7 +328,7 @@ export default class Topics {
    */
 
   /**
-   * Available header levels
+   * Available Topic levels
    *
    * @returns {level[]}
    */
@@ -347,7 +347,7 @@ export default class Topics {
   }
 
   /**
-   * Handle H1-H6 tags on paste to substitute it with header Tool
+   * Handle H1-H6 tags on paste to substitute it with Topic Tool
    *
    * @param {PasteEvent} event - event with pasted content
    */

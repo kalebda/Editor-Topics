@@ -30,9 +30,11 @@ export default class Topics {
    *   data — previously saved data
    *   config - user config for Tool
    *   api - Editor.js API
+   *   readOnly - read only mode flag
    */
-  constructor({ data, config, api }) {
+  constructor({ data, config, api, readOnly }) {
     this.api = api;
+    this.readOnly = readOnly;
 
     /**
      * Styles
@@ -164,6 +166,15 @@ export default class Topics {
       level: false,
       text: {},
     };
+  }
+
+  /**
+   * Returns true to notify core that read-only is supported
+   *
+   * @returns {boolean}
+   */
+  static get isReadOnlySupported() {
+    return true;
   }
 
   /**
@@ -333,7 +344,7 @@ export default class Topics {
       tag.dataset.placeholder = this.api.i18n.t(
         this._settings.placeholder || ""
       );
-      tag.contentEditable = true;
+      tag.contentEditable = this.readOnly ? "false" : "true";
       tag.addEventListener("keyup", this.onKeyUp);
       return tag;
     }

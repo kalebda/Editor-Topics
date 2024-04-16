@@ -328,7 +328,7 @@ export default class Topics {
       tag.innerHTML = "";
       return tag;
     } else {
-      if (this.readOnly == "false") {
+      if (!this.readOnly) {
         const tag = document.createElement(this.currentLevel.tag);
         /**
          * Add text to block

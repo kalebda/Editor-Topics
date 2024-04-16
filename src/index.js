@@ -328,25 +328,29 @@ export default class Topics {
       tag.innerHTML = "";
       return tag;
     } else {
-      const tag = document.createElement(this.currentLevel.tag);
-      /**
-       * Add text to block
-       */
-      tag.innerHTML = this._data.text || "";
-      /**
-       * Add styles class
-       */
-      tag.classList.add(this._CSS.wrapper);
+      if (this.readOnly == "false") {
+        const tag = document.createElement(this.currentLevel.tag);
+        /**
+         * Add text to block
+         */
+        tag.innerHTML = this._data.text || "";
+        /**
+         * Add styles class
+         */
+        tag.classList.add(this._CSS.wrapper);
 
-      /**
-       * Add Placeholder
-       */
-      tag.dataset.placeholder = this.api.i18n.t(
-        this._settings.placeholder || ""
-      );
-      tag.contentEditable = this.readOnly ? "false" : "true";
-      tag.addEventListener("keyup", this.onKeyUp);
-      return tag;
+        /**
+         * Add Placeholder
+         */
+        tag.dataset.placeholder = this.api.i18n.t(
+          this._settings.placeholder || ""
+        );
+        tag.contentEditable = this.readOnly ? "false" : "true";
+        tag.addEventListener("keyup", this.onKeyUp);
+        return tag;
+      } else {
+        return this._element;
+      }
     }
   }
 
@@ -494,7 +498,7 @@ export default class Topics {
    */
   static get pasteConfig() {
     return {
-      tags: ["H1", "H2", "H3", "H4", "H5", "H6"],
+      tags: ["H1"],
     };
   }
 

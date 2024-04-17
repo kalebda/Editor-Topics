@@ -67,7 +67,6 @@ export default class Topics {
      * @private
      */
     this._element = null;
-    this.onKeyUp = this.onKeyUp.bind(this);
   }
   /**
    * Normalize input data
@@ -88,18 +87,6 @@ export default class Topics {
     newData.level = parseInt(data.level) || this.defaultLevel.number;
 
     return newData;
-  }
-
-  onKeyUp(e) {
-    if (e.code !== "Backspace" && e.code !== "Delete") {
-      return;
-    }
-
-    const { textContent } = this._element;
-
-    if (textContent === "") {
-      this._element.innerHTML = "";
-    }
   }
 
   renderSettings() {
@@ -328,32 +315,26 @@ export default class Topics {
       tag.innerHTML = "";
       return tag;
     } else {
-      if (!this.readOnly) {
-        const tag = document.createElement(this.currentLevel.tag);
-        /**
-         * Add text to block
-         */
-        tag.innerHTML = this._data.text || "";
-        /**
-         * Add styles class
-         */
-        tag.classList.add(this._CSS.wrapper);
+      const tag = document.createElement(this.currentLevel.tag);
+      /**
+       * Add text to block
+       */
+      tag.innerHTML = this._data.text || "";
+      /**
+       * Add styles class
+       */
+      tag.classList.add(this._CSS.wrapper);
 
-        /**
-         * Add Placeholder
-         */
-        tag.dataset.placeholder = this.api.i18n.t(
-          this._settings.placeholder || ""
-        );
-        tag.contentEditable = this.readOnly ? "false" : "true";
-        tag.addEventListener("keyup", this.onKeyUp);
-        return tag;
-      } else {
-        return this._element;
-      }
+      /**
+       * Add Placeholder
+       */
+      tag.dataset.placeholder = this.api.i18n.t(
+        this._settings.placeholder || ""
+      );
+      tag.contentEditable = this.readOnly ? "false" : "true";
+      return tag;
     }
   }
-
   /**
    * Get current level
    *
